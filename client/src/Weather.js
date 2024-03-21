@@ -9,7 +9,7 @@ const Weather = () => {
   
 
   useEffect(() => {
-    const socket = io("http://localhost:8000");
+    const socket = io("https://real-time-weather-app-7m8j.onrender.com");
 
     navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
