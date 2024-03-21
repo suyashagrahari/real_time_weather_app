@@ -11,7 +11,6 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: "https://real-time-weather-app-steel.vercel.app/",
-    methods: ["GET", "POST"],
     credentials: true,
   },
 });
@@ -22,14 +21,14 @@ const PORT = 8000;
 app.use(cors());
 app.use(express.json());
 
-app.get("/",async(req,res)=>{
-    try {
-       res.send("Hi api"); 
-    } catch (error) {
-        console.log(error);
-        
-    }
-})
+app.get("/", async (req, res) => {
+  try {
+    res.send("Hi apicn am c");
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 let intervalId;
 
 io.on('connection', (socket) => {
@@ -42,20 +41,20 @@ io.on('connection', (socket) => {
       try {
         const response = await axios.get(`http://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${latitude},${longitude}`);
         const weatherData = {
-            name : response.data.location.name,
-            region : response.data.location.region,
-            feelLike : response.data.current.feelslike_c,
-            pressure : response.data.current.pressure_mb,
-            weather : response.data.current.condition.text,
-            icon : response.data.current.condition.icon,
-            direction: response.data.current.wind_dir,
+          name: response.data.location.name,
+          region: response.data.location.region,
+          feelLike: response.data.current.feelslike_c,
+          pressure: response.data.current.pressure_mb,
+          weather: response.data.current.condition.text,
+          icon: response.data.current.condition.icon,
+          direction: response.data.current.wind_dir,
           temperature: response.data.current.temp_c,
           humidity: response.data.current.humidity,
           windSpeed: response.data.current.wind_kph,
         };
-       
+
         socket.emit('weatherData', weatherData);
-        
+
       } catch (error) {
         console.error('Error fetching real-time weather data:', error);
       }
